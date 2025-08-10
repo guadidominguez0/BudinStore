@@ -323,17 +323,17 @@
                     const progressInterval = setInterval(()=>{ progress += 2; progressFill.style.width = Math.min(progress,targetProgress)+'%'; if(progress >= targetProgress){ clearInterval(progressInterval); currentStep++; setTimeout(()=>{ if(currentStep < steps.length) nextStep(); else { setTimeout(()=>{ cookingAnimation.style.display='none'; // armar mensaje y abrir whatsapp
                                     const flavor = flavors.find(f=>f.id===selection.flavor);
                                     const size = sizes.find(s=>s.id===selection.size);
-                                    let message = `🧁 *NUEVO PEDIDO - BUDINES ARTESANALES* 🧁\n\n`;
-                                    message += `👤 *CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
-                                    message += `📋 *RESUMEN DEL PEDIDO:*\n`;
+                                    let message = `*NUEVO PEDIDO - BUDINES ARTESANALES*\n\n`;
+                                    message += `*CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
+                                    message += `*RESUMEN DEL PEDIDO:*\n`;
                                     message += `• *Sabor:* ${flavor.name} ${flavor.icon}\n`;
                                     message += `• *Tamaño:* ${size.name} - ${size.price}\n`;
-                                    if(selection.extras.length>0){ message += `\n✨ *EXTRAS:*\n`; selection.extras.forEach(extraId=>{ const extra = extras.find(e=>e.id===extraId); message += `• ${extra.name} ${extra.icon} - ${extra.price}\n`; }); }
-                                    if(selection.superExtras.length>0){ message += `\n🌟 *PREMIUM:*\n`; selection.superExtras.forEach(seId=>{ const se = superExtras.find(s=>s.id===seId); message += `• ${se.name} ${se.icon} - ${se.price}\n`; }); }
+                                    if(selection.extras.length>0){ message += `\n *EXTRAS:*\n`; selection.extras.forEach(extraId=>{ const extra = extras.find(e=>e.id===extraId); message += `• ${extra.name} ${extra.icon} - ${extra.price}\n`; }); }
+                                    if(selection.superExtras.length>0){ message += `\n *PREMIUM:*\n`; selection.superExtras.forEach(seId=>{ const se = superExtras.find(s=>s.id===seId); message += `• ${se.name} ${se.icon} - ${se.price}\n`; }); }
                                     let totalPrice = size.price; selection.extras.forEach(extraId=>{ const extra = extras.find(e=>e.id===extraId); totalPrice += extra.price; }); selection.superExtras.forEach(seId=>{ const se = superExtras.find(s=>s.id===seId); totalPrice += se.price; });
-                                    message += `\n💰 *TOTAL: ${totalPrice}*\n\n`;
-                                    message += `🗓 Fecha: ${new Date().toLocaleDateString('es-AR')}\n`;
-                                    message += `🕛 Hora: ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
+                                    message += `\n *TOTAL: ${totalPrice}*\n\n`;
+                                    message += `Fecha: ${new Date().toLocaleDateString('es-AR')}\n`;
+                                    message += `Hora: ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
                                     const encodedMessage = encodeURIComponent(message);
                                     const whatsappURL = `https://wa.me/5492613618633?text=${encodedMessage}`;
                                     location.href = whatsappURL;
