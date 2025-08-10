@@ -253,52 +253,107 @@
             { id: '20cm', name: '20cm', price: 1200 }
         ];
 
-        let selection = { firstName:'', lastName:'', flavor:null, extras:[], superExtras:[], size:[] };
+        // Selección del usuario
+        let selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [], size: null };
 
-        function initApp(){ renderFlavors(); renderExtras(); renderSuperExtras(); renderSizes(); setupInputListeners(); }
-
-        function setupInputListeners(){
-            document.getElementById('firstName').addEventListener('input', function(){ selection.firstName = this.value; updatePreview(); });
-            document.getElementById('lastName').addEventListener('input', function(){ selection.lastName = this.value; updatePreview(); });
+        function initApp() {
+            renderFlavors();
+            renderExtras();
+            renderSuperExtras();
+            renderSizes();
+            setupInputListeners();
         }
 
-        function copyCVU(){
+        function setupInputListeners() {
+            document.getElementById('firstName').addEventListener('input', function () {
+                selection.firstName = this.value;
+                updatePreview();
+            });
+            document.getElementById('lastName').addEventListener('input', function () {
+                selection.lastName = this.value;
+                updatePreview();
+            });
+        }
+
+        function copyCVU() {
             const cvuText = '0000003100065308425641';
-            navigator.clipboard.writeText(cvuText).then(function(){
+            navigator.clipboard.writeText(cvuText).then(function () {
                 const cvuElement = document.getElementById('cvuNumber');
                 const originalBg = cvuElement.style.background;
                 cvuElement.style.background = '#2ecc71';
                 cvuElement.style.color = 'white';
-                setTimeout(()=>{ cvuElement.style.background = originalBg; cvuElement.style.color = '#2980b9'; },800);
+                setTimeout(() => {
+                    cvuElement.style.background = originalBg;
+                    cvuElement.style.color = '#2980b9';
+                }, 800);
                 const copyMessage = document.querySelector('.copy-message');
                 const originalText = copyMessage.textContent;
                 copyMessage.textContent = '¡Copiado al portapapeles! ✅';
                 copyMessage.style.color = '#2ecc71';
-                setTimeout(()=>{ copyMessage.textContent = originalText; copyMessage.style.color = 'var(--muted)'; },2000);
-            }).catch(()=>{ alert('CVU: 0000003100065308425641'); });
+                setTimeout(() => {
+                    copyMessage.textContent = originalText;
+                    copyMessage.style.color = 'var(--muted)';
+                }, 2000);
+            }).catch(() => {
+                alert('CVU: 0000003100065308425641');
+            });
         }
 
-        function renderFlavors(){ 
-            document.getElementById('flavors').innerHTML = flavors.map(flavor=>`<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}"><span class="option-icon">${flavor.icon}</span><div class="option-name">${flavor.name}</div></div>`).join(''); 
+        function renderFlavors() {
+            document.getElementById('flavors').innerHTML = flavors.map(flavor => `<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}"><span class="option-icon">${flavor.icon}</span><div class="option-name">${flavor.name}</div></div>`).join('');
         }
 
-        function renderExtras(){ 
-            document.getElementById('extras').innerHTML = extras.map(extra=>`<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}"><span class="option-icon">${extra.icon}</span><div class="option-name">${extra.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div></div>`).join(''); 
+        function renderExtras() {
+            document.getElementById('extras').innerHTML = extras.map(extra => `<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}"><span class="option-icon">${extra.icon}</span><div class="option-name">${extra.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div></div>`).join('');
         }
 
-        function renderSuperExtras(){ 
-            document.getElementById('superExtras').innerHTML = superExtras.map(se=>`<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join(''); 
+        function renderSuperExtras() {
+            document.getElementById('superExtras').innerHTML = superExtras.map(se => `<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join('');
         }
 
-        function renderSizes(){ 
-            document.getElementById('sizes').innerHTML = sizes.map(s=>`<div class="size-option" onclick="selectSize('${s.id}')" id="size-${s.id}"><div style="font-weight:700">${s.name}</div><div style="font-size:0.7rem">$${s.price}</div></div>`).join(''); 
+        function renderSizes() {
+            document.getElementById('sizes').innerHTML = sizes.map(s => `<div class="size-option" onclick="selectSize('${s.id}')" id="size-${s.id}"><div style="font-weight:700">${s.name}</div><div style="font-size:0.7rem">$${s.price}</div></div>`).join('');
         }
 
-        function selectFlavor(flavorId){ 
-            document.querySelectorAll('#flavors .option-card').forEach(card=>card.classList.remove('selected')); document.getElementById(`flavor-${flavorId}`).classList.add('selected'); selection.flavor = flavorId; updatePreview(); }
-        function toggleExtra(extraId){ const card = document.getElementById(`extra-${extraId}`); const idx = selection.extras.indexOf(extraId); if(idx>-1){ selection.extras.splice(idx,1); card.classList.remove('selected'); }else{ selection.extras.push(extraId); card.classList.add('selected'); } updatePreview(); }
-        function toggleSuperExtra(superExtraId){ const card = document.getElementById(`superExtra-${superExtraId}`); const idx = selection.superExtras.indexOf(superExtraId); if(idx>-1){ selection.superExtras.splice(idx,1); card.classList.remove('selected'); }else{ selection.superExtras.push(superExtraId); card.classList.add('selected'); } updatePreview(); }
-        function selectSize(sizeId){ document.querySelectorAll('#sizes .size-option').forEach(card=>card.classList.remove('selected')); document.getElementById(`size-${sizeId}`).classList.add('selected'); selection.size = sizeId; updatePreview(); }
+        function selectFlavor(flavorId) {
+            document.querySelectorAll('#flavors .option-card').forEach(card => card.classList.remove('selected'));
+            document.getElementById(`flavor-${flavorId}`).classList.add('selected');
+            selection.flavor = flavorId;
+            updatePreview();
+        }
+
+        function toggleExtra(extraId) {
+            const card = document.getElementById(`extra-${extraId}`);
+            const idx = selection.extras.indexOf(extraId);
+            if (idx > -1) {
+                selection.extras.splice(idx, 1);
+                card.classList.remove('selected');
+            } else {
+                selection.extras.push(extraId);
+                card.classList.add('selected');
+            }
+            updatePreview();
+        }
+
+        function toggleSuperExtra(superExtraId) {
+            const card = document.getElementById(`superExtra-${superExtraId}`);
+            const idx = selection.superExtras.indexOf(superExtraId);
+            if (idx > -1) {
+                selection.superExtras.splice(idx, 1);
+                card.classList.remove('selected');
+            } else {
+                selection.superExtras.push(superExtraId);
+                card.classList.add('selected');
+            }
+            updatePreview();
+        }
+
+        function selectSize(sizeId) {
+            document.querySelectorAll('#sizes .size-option').forEach(card => card.classList.remove('selected'));
+            document.getElementById(`size-${sizeId}`).classList.add('selected');
+            selection.size = sizeId;
+            updatePreview();
+        }
 
         function updatePreview() {
             const budinBase = document.getElementById('budinBase');
@@ -307,20 +362,23 @@
             const priceDisplay = document.getElementById('priceDisplay');
             const orderBtn = document.getElementById('orderBtn');
 
-            if(selection.flavor){
-                const flavor = flavors.find(f=>f.id===selection.flavor);
-                if(flavor.color.includes('gradient')) budinBase.style.background = flavor.color;
+            if (selection.flavor) {
+                const flavor = flavors.find(f => f.id === selection.flavor);
+                if (flavor.color.includes('gradient')) budinBase.style.background = flavor.color;
                 else budinBase.style.backgroundColor = flavor.color;
                 budinBase.innerHTML = `<span style="font-size:2.6rem">${flavor.icon}</span>`;
+            } else {
+                budinBase.style.background = '';
+                budinBase.innerHTML = '<span style="font-size:2.6rem">🧁</span>';
             }
 
             let ingredientsHTML = '';
-            selection.extras.forEach(extraId=>{
-                const extra = extras.find(e=>e.id===extraId);
+            selection.extras.forEach(extraId => {
+                const extra = extras.find(e => e.id === extraId);
                 ingredientsHTML += `<div class="ingredient-item"><span style="margin-right:6px;color:#27ae60;font-weight:700">+</span><span>${extra.icon} ${extra.name}</span></div>`;
             });
-            selection.superExtras.forEach(seId=>{
-                const se = superExtras.find(s=>s.id===seId);
+            selection.superExtras.forEach(seId => {
+                const se = superExtras.find(s => s.id === seId);
                 ingredientsHTML += `<div class="ingredient-item"><span style="margin-right:6px;color:#27ae60;font-weight:700">+</span><span>${se.icon} ${se.name}</span></div>`;
             });
             ingredientsDisplay.innerHTML = ingredientsHTML;
@@ -330,33 +388,33 @@
             if (selection.flavor) {
                 totalPrice += BASE_FLAVOR_PRICE;
             }
-            selection.extras.forEach(extraId=>{
-                const extra = extras.find(e=>e.id===extraId);
+            selection.extras.forEach(extraId => {
+                const extra = extras.find(e => e.id === extraId);
                 totalPrice += extra.price;
             });
-            selection.superExtras.forEach(seId=>{
-                const se = superExtras.find(s=>s.id===seId);
+            selection.superExtras.forEach(seId => {
+                const se = superExtras.find(s => s.id === seId);
                 totalPrice += se.price;
             });
-            selection.size.forEach(seId=>{
-                const se = size.find(s=>s.id===seId);
-                totalPrice += se.price;
-            });
+            if (selection.size) {
+                const sizeObj = sizes.find(s => s.id === selection.size);
+                totalPrice += sizeObj.price;
+            }
 
             // Mostrar resumen
-            if(selection.firstName && selection.lastName && selection.flavor && selection.size){
-                const flavor = flavors.find(f=>f.id===selection.flavor);
-                const size = sizes.find(s=>s.id===selection.size);
-                let detailsHTML = `<p><strong>Nombre:</strong> ${selection.firstName} ${selection.lastName}</p><p><strong>Sabor:</strong> ${flavor.name}</p><p><strong>Tamaño:</strong> ${size.name}</p>`;
-                if(selection.extras.length>0) detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id=>extras.find(e=>e.id===id).name).join(', ')}</p>`;
-                if(selection.superExtras.length>0) detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id=>superExtras.find(se=>se.id===id).name).join(', ')}</p>`;
+            if (selection.firstName && selection.lastName && selection.flavor && selection.size) {
+                const flavor = flavors.find(f => f.id === selection.flavor);
+                const sizeObj = sizes.find(s => s.id === selection.size);
+                let detailsHTML = `<p><strong>Nombre:</strong> ${selection.firstName} ${selection.lastName}</p><p><strong>Sabor:</strong> ${flavor.name}</p><p><strong>Tamaño:</strong> ${sizeObj.name}</p>`;
+                if (selection.extras.length > 0) detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id => extras.find(e => e.id === id).name).join(', ')}</p>`;
+                if (selection.superExtras.length > 0) detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id => superExtras.find(se => se.id === id).name).join(', ')}</p>`;
                 orderDetails.innerHTML = detailsHTML;
                 orderBtn.disabled = false;
             } else {
                 let missingData = [];
-                if(!selection.firstName || !selection.lastName) missingData.push('nombre completo');
-                if(!selection.flavor) missingData.push('sabor');
-                if(!selection.size) missingData.push('tamaño');
+                if (!selection.firstName || !selection.lastName) missingData.push('nombre completo');
+                if (!selection.flavor) missingData.push('sabor');
+                if (!selection.size) missingData.push('tamaño');
                 orderDetails.innerHTML = `<p style="text-align:center;color:var(--muted)">Completa: ${missingData.join(', ')}</p>`;
                 orderBtn.disabled = true;
             }
@@ -364,7 +422,7 @@
             priceDisplay.textContent = `$${totalPrice}`;
         }
 
-        function processOrder(){
+        function processOrder() {
             const cookingAnimation = document.getElementById('cookingAnimation');
             const progressFill = document.getElementById('progressFill');
             const cookingStatus = document.getElementById('cookingStatus');
@@ -377,16 +435,16 @@
             ];
 
             cookingAnimation.style.display = 'flex';
-            let currentStep = 0; 
+            let currentStep = 0;
             let progress = 0;
 
-            function nextStep(){
-                if(currentStep < steps.length){
+            function nextStep() {
+                if (currentStep < steps.length) {
                     cookingStatus.textContent = steps[currentStep].text;
                     const ovenIcon = document.querySelector('.oven-icon');
                     ovenIcon.textContent = steps[currentStep].icon;
                     ovenIcon.className = 'oven-icon';
-                    switch(currentStep){
+                    switch (currentStep) {
                         case 0: ovenIcon.classList.add('crack-animation'); break;
                         case 1: ovenIcon.classList.add('mix-animation'); break;
                         case 2: ovenIcon.classList.add('rain-animation'); break;
@@ -398,22 +456,22 @@
                     const progressInterval = setInterval(() => {
                         progress += 2;
                         progressFill.style.width = Math.min(progress, targetProgress) + '%';
-                        if(progress >= targetProgress){
+                        if (progress >= targetProgress) {
                             clearInterval(progressInterval);
                             currentStep++;
                             setTimeout(() => {
-                                if(currentStep < steps.length) nextStep();
+                                if (currentStep < steps.length) nextStep();
                                 else {
                                     setTimeout(() => {
                                         cookingAnimation.style.display = 'none';
                                         // armar mensaje y abrir whatsapp
                                         const flavor = flavors.find(f => f.id === selection.flavor);
-                                        const size = sizes.find(s => s.id === selection.size);
+                                        const sizeObj = sizes.find(s => s.id === selection.size);
                                         let message = `*NUEVO PEDIDO - BUDINES ARTESANALES*\n\n`;
                                         message += `*CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
                                         message += `*RESUMEN DEL PEDIDO:*\n`;
                                         message += `• *Sabor:* ${flavor.name}\n`;
-                                        message += `• *Tamaño:* ${size.name} - $${size.price}\n`;
+                                        message += `• *Tamaño:* ${sizeObj.name} - $${sizeObj.price}\n`;
                                         if (selection.extras.length > 0) {
                                             message += `\n*EXTRAS:*\n`;
                                             selection.extras.forEach(extraId => {
@@ -429,23 +487,7 @@
                                             });
                                         }
 
-                                        if (selection.superExtras.length > 0) {
-                                            message += `\n*PREMIUM:*\n`;
-                                            selection.superExtras.forEach(seId => {
-                                                const se = superExtras.find(s => s.id === seId);
-                                                message += `• ${se.name} - $${se.price}\n`;
-                                            });
-                                        }
-
-                                        if (selection.size.length > 0) {
-                                            message += `\n*TAMAÑO:*\n`;
-                                            selection.size.forEach(seId => {
-                                                const se = size.find(s => s.id === seId);
-                                                message += `• ${se.name} - $${se.price}\n`;
-                                            });
-                                        }
-
-                                        let totalPrice = size.price;
+                                        let totalPrice = BASE_FLAVOR_PRICE + sizeObj.price;
                                         selection.extras.forEach(extraId => {
                                             const extra = extras.find(e => e.id === extraId);
                                             totalPrice += extra.price;
@@ -454,10 +496,7 @@
                                             const se = superExtras.find(s => s.id === seId);
                                             totalPrice += se.price;
                                         });
-                                        selection.size.forEach(seId => {
-                                            const se = size.find(s => s.id === seId);
-                                            totalPrice += se.price;
-                                        });
+
                                         message += `\n*TOTAL: $${totalPrice}*\n\n`;
                                         message += `Fecha: ${new Date().toLocaleDateString('es-AR')}\n`;
                                         message += `Hora: ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -476,17 +515,18 @@
             nextStep();
         }
 
-        function resetForm(){
-             selection = { firstName:'', lastName:'', flavor:null, extras:[], superExtras:[], size:null }; 
-             document.getElementById('firstName').value=''; 
-             document.getElementById('lastName').value=''; 
-             document.querySelectorAll('.option-card, .size-option').forEach(c=>c.classList.remove('selected')); 
-             document.getElementById('budinBase').style.background=''; 
-             document.getElementById('budinBase').innerHTML = '<span style="font-size:2.6rem">🧁</span>'; 
-             updatePreview(); 
+        function resetForm() {
+            selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [], size: null };
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.querySelectorAll('.option-card, .size-option').forEach(c => c.classList.remove('selected'));
+            document.getElementById('budinBase').style.background = '';
+            document.getElementById('budinBase').innerHTML = '<span style="font-size:2.6rem">🧁</span>';
+            updatePreview();
         }
-        
+
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
+
 </body>
 </html>
