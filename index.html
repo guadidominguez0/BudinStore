@@ -249,8 +249,8 @@
 
         // Tamaños (se mantienen como dato descriptivo)
         const sizes = [
-            { id: '15cm', name: '15cm', price: 700 },
-            { id: '20cm', name: '20cm', price: 1200 }
+            { id: '15cm', name: '15cm', price: 200 },
+            { id: '20cm', name: '20cm', price: 500 }
         ];
 
         // Selección del usuario
@@ -471,12 +471,12 @@
                                         message += `*CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
                                         message += `*RESUMEN DEL PEDIDO:*\n`;
                                         message += `• *Sabor:* ${flavor.name}\n`;
-                                        message += `• *Tamaño:* ${sizeObj.name} - $${sizeObj.price}\n`;
+                                        message += `• *Tamaño:* ${sizeObj.name}\n`;
                                         if (selection.extras.length > 0) {
                                             message += `\n*EXTRAS:*\n`;
                                             selection.extras.forEach(extraId => {
                                                 const extra = extras.find(e => e.id === extraId);
-                                                message += `• ${extra.name} - $${extra.price}\n`;
+                                                message += `• ${extra.name}\n`;
                                             });
                                         }
                                         if (selection.superExtras.length > 0) {
