@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budines Artesanales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .form-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .input-field:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .input-field:invalid {
+            border-color: #e74c3c;
+        }
+        
+        .cvu-container {
+            background: #f8f9fa;
+            border: 2px dashed #3498db;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cvu-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .cvu-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2980b9;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            display: inline-block;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cvu-number:hover {
+            background: #ecf0f1;
+            transform: scale(1.02);
+        }
+        
+        .copy-message {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-card.selected {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .option-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .option-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .size-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .size-option {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .size-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .size-option.selected {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .preview-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .preview-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .budin-preview {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .budin-base {
+            width: 120px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        
+        .ingredients-display {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            color: #2980b9;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .ingredient-plus {
+            margin-right: 5px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .order-summary {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .price-display {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #27ae60;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .order-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .cooking-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .cooking-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .oven-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .crack-animation {
+            animation: crack 1s ease-in-out infinite;
+        }
+        
+        .mix-animation {
+            animation: mix 0.8s ease-in-out infinite;
+        }
+        
+        .rain-animation {
+            animation: sparkle 0.6s ease-in-out infinite;
+        }
+        
+        .fire-animation {
+            animation: flicker 0.3s ease-in-out infinite alternate;
+        }
+        
+        .bounce-animation {
+            animation: celebrationBounce 0.6s ease-in-out infinite alternate;
+        }
+        
+        .cooking-text {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes crack {
+            0% { transform: rotate(-2deg); }
+            25% { transform: rotate(2deg) scale(1.05); }
+            50% { transform: rotate(-1deg); }
+            75% { transform: rotate(1deg) scale(1.02); }
+            100% { transform: rotate(-2deg); }
+        }
+        
+        @keyframes mix {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(15deg) scale(1.05); }
+            75% { transform: rotate(-10deg) scale(1.08); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        
+        @keyframes sparkle {
+            0% { 
+                transform: scale(1) rotate(0deg);
+                filter: brightness(1);
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            }
+            50% { 
+                transform: scale(1.1) rotate(180deg);
+                filter: brightness(1.4);
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 255, 255, 0.6);
+            }
+            100% { 
+                transform: scale(1) rotate(360deg);
+                filter: brightness(1);
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            }
+        }
+        
+        @keyframes flicker {
+            0% { 
+                transform: scale(1) rotate(-1deg);
+                filter: brightness(1);
+            }
+            100% { 
+                transform: scale(1.15) rotate(1deg);
+                filter: brightness(1.3);
+            }
+        }
+        
+        @keyframes celebrationBounce {
+            0% { 
+                transform: scale(1) translateY(0px);
+            }
+            100% { 
+                transform: scale(1.2) translateY(-10px);
+            }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧁 Budines Artesanales</h1>
+            <p>Crea tu budín perfecto con ingredientes frescos y naturales</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>👤 Datos del cliente</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <input type="text" id="firstName" placeholder="Nombre" class="input-field" required>
+                        <input type="text" id="lastName" placeholder="Apellido" class="input-field" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h3>🎂 Elige tu sabor base</h3>
+                    <div class="options-grid" id="flavors">
+                        <!-- Sabores se generarán dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h3>✨ Agregados extras</h3>
+                    <div class="options-grid" id="extras">
+                        <!-- Extras se generarán dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h3>🌟 Super extras premium</h3>
+                    <div class="options-grid" id="superExtras">
+                        <!-- Super extras se generarán dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h3>📏 Tamaño del molde</h3>
+                    <div class="size-options" id="sizes">
+                        <!-- Tamaños se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h3 class="preview-title">Vista previa de tu budín</h3>
+                <div class="budin-preview">
+                    <div class="budin-base" id="budinBase">
+                        <span style="font-size: 3rem;">🧁</span>
+                    </div>
+                    <div class="ingredients-display" id="ingredientsDisplay"></div>
+                </div>
+                
+                <div class="order-summary">
+                    <div id="orderDetails">
+                        <p style="text-align: center; color: #7f8c8d;">Completa tus datos y selecciona los ingredientes para ver el resumen</p>
+                    </div>
+                    <div class="price-display" id="priceDisplay">$0</div>
+                    
+                    <div class="cvu-container">
+                        <div class="cvu-label">💳 CVU para transferencia:</div>
+                        <div class="cvu-number" id="cvuNumber" onclick="copyCVU()">0000003100065308425641</div>
+                        <div class="copy-message">Haz clic para copiar</div>
+                    </div>
+                    
+                    <button class="order-btn" id="orderBtn" disabled onclick="processOrder()">
+                        Realizar Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cooking-animation" id="cookingAnimation">
+        <div class="cooking-content">
+            <div class="oven-icon">🔥</div>
+            <div class="cooking-text">¡Tu budín se está cocinando!</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="cookingStatus">Preparando ingredientes...</p>
+        </div>
+    </div>
+
+    <script>
+        // Datos de productos
+        const flavors = [
+            { id: 'chocolate', name: 'Chocolate', icon: '🍫', color: '#8B4513' },
+            { id: 'vainilla', name: 'Vainilla', icon: '🌟', color: '#FFF8DC' },
+            { id: 'banana', name: 'Banana', icon: '🍌', color: '#FFE135' },
+            { id: 'limon', name: 'Limón', icon: '🍋', color: '#FFF700' },
+            { id: 'naranja', name: 'Naranja', icon: '🍊', color: '#FFA500' },
+            { id: 'coco', name: 'Coco', icon: '🥥', color: '#F5F5DC' },
+            { id: 'mandarina', name: 'Mandarina', icon: '🍊', color: '#FF8C00' },
+            { id: 'marmolado', name: 'Marmolado', icon: '🎨', color: 'linear-gradient(45deg, #8B4513, #FFF8DC)' },
+            { id: 'carrot', name: 'Zanahoria', icon: '🥕', color: '#FF6347' }
+        ];
+        
+        const extras = [
+            { id: 'chips-chocolate', name: 'Chips Chocolate', icon: '🍫', price: 150 },
+            { id: 'dulce-leche', name: 'Dulce de Leche', icon: '🍯', price: 200 },
+            { id: 'arandanos', name: 'Arándanos', icon: '🫐', price: 180 },
+            { id: 'coco-rallado', name: 'Coco Rallado', icon: '🥥', price: 120 },
+            { id: 'nueces', name: 'Nueces', icon: '🥜', price: 160 },
+            { id: 'almendras', name: 'Almendras', icon: '🌰', price: 170 },
+            { id: 'mix-semillas', name: 'Mix Semillas', icon: '🌱', price: 140 },
+            { id: 'pasas', name: 'Pasas de Uva', icon: '🍇', price: 130 },
+            { id: 'frutos-rojos', name: 'Frutos Rojos', icon: '🍓', price: 200 }
+        ];
+        
+        const superExtras = [
+            { id: 'glaseado', name: 'Glaseado', icon: '✨', price: 300 },
+            { id: 'bano-chocolate', name: 'Baño Chocolate', icon: '🍫', price: 400 }
+        ];
+        
+        const sizes = [
+            { id: '15cm', name: '15cm', price: 800 },
+            { id: '20cm', name: '20cm', price: 1200 },
+            { id: '25cm', name: '25cm', price: 1600 },
+            { id: '30cm', name: '30cm', price: 2000 }
+        ];
+        
+        // Estado de la selección
+        let selection = {
+            firstName: '',
+            lastName: '',
+            flavor: null,
+            extras: [],
+            superExtras: [],
+            size: null
+        };
+        
+        // Inicializar la aplicación
+        function initApp() {
+            renderFlavors();
+            renderExtras();
+            renderSuperExtras();
+            renderSizes();
+            setupInputListeners();
+        }
+        
+        function setupInputListeners() {
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            
+            firstNameInput.addEventListener('input', function() {
+                selection.firstName = this.value;
+                updatePreview();
+            });
+            
+            lastNameInput.addEventListener('input', function() {
+                selection.lastName = this.value;
+                updatePreview();
+            });
+        }
+        
+        function copyCVU() {
+            const cvuText = '0000003100065308425641';
+            navigator.clipboard.writeText(cvuText).then(function() {
+                const cvuElement = document.getElementById('cvuNumber');
+                const originalBg = cvuElement.style.background;
+                cvuElement.style.background = '#2ecc71';
+                cvuElement.style.color = 'white';
+                
+                setTimeout(() => {
+                    cvuElement.style.background = originalBg;
+                    cvuElement.style.color = '#2980b9';
+                }, 800);
+                
+                // Mostrar mensaje temporal
+                const copyMessage = document.querySelector('.copy-message');
+                const originalText = copyMessage.textContent;
+                copyMessage.textContent = '¡Copiado al portapapeles! ✅';
+                copyMessage.style.color = '#2ecc71';
+                
+                setTimeout(() => {
+                    copyMessage.textContent = originalText;
+                    copyMessage.style.color = '#7f8c8d';
+                }, 2000);
+            }).catch(function(err) {
+                alert('CVU: 0000003100065308425641');
+            });
+        }
+        
+        function renderFlavors() {
+            const container = document.getElementById('flavors');
+            container.innerHTML = flavors.map(flavor => `
+                <div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}">
+                    <span class="option-icon">${flavor.icon}</span>
+                    <div class="option-name">${flavor.name}</div>
+                </div>
+            `).join('');
+        }
+        
+        function renderExtras() {
+            const container = document.getElementById('extras');
+            container.innerHTML = extras.map(extra => `
+                <div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}">
+                    <span class="option-icon">${extra.icon}</span>
+                    <div class="option-name">${extra.name}</div>
+                    <div style="font-size: 0.8rem; color: #7f8c8d;">+$${extra.price}</div>
+                </div>
+            `).join('');
+        }
+        
+        function renderSuperExtras() {
+            const container = document.getElementById('superExtras');
+            container.innerHTML = superExtras.map(superExtra => `
+                <div class="option-card" onclick="toggleSuperExtra('${superExtra.id}')" id="superExtra-${superExtra.id}">
+                    <span class="option-icon">${superExtra.icon}</span>
+                    <div class="option-name">${superExtra.name}</div>
+                    <div style="font-size: 0.8rem; color: #7f8c8d;">+$${superExtra.price}</div>
+                </div>
+            `).join('');
+        }
+        
+        function renderSizes() {
+            const container = document.getElementById('sizes');
+            container.innerHTML = sizes.map(size => `
+                <div class="size-option" onclick="selectSize('${size.id}')" id="size-${size.id}">
+                    <div style="font-weight: bold;">${size.name}</div>
+                    <div style="font-size: 0.7rem;">$${size.price}</div>
+                </div>
+            `).join('');
+        }
+        
+        function selectFlavor(flavorId) {
+            // Remover selección anterior
+            document.querySelectorAll('#flavors .option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seleccionar nuevo sabor
+            document.getElementById(`flavor-${flavorId}`).classList.add('selected');
+            selection.flavor = flavorId;
+            
+            updatePreview();
+        }
+        
+        function toggleExtra(extraId) {
+            const card = document.getElementById(`extra-${extraId}`);
+            const index = selection.extras.indexOf(extraId);
+            
+            if (index > -1) {
+                selection.extras.splice(index, 1);
+                card.classList.remove('selected');
+            } else {
+                selection.extras.push(extraId);
+                card.classList.add('selected');
+            }
+            
+            updatePreview();
+        }
+        
+        function toggleSuperExtra(superExtraId) {
+            const card = document.getElementById(`superExtra-${superExtraId}`);
+            const index = selection.superExtras.indexOf(superExtraId);
+            
+            if (index > -1) {
+                selection.superExtras.splice(index, 1);
+                card.classList.remove('selected');
+            } else {
+                selection.superExtras.push(superExtraId);
+                card.classList.add('selected');
+            }
+            
+            updatePreview();
+        }
+        
+        function selectSize(sizeId) {
+            // Remover selección anterior
+            document.querySelectorAll('#sizes .size-option').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seleccionar nuevo tamaño
+            document.getElementById(`size-${sizeId}`).classList.add('selected');
+            selection.size = sizeId;
+            
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            const budinBase = document.getElementById('budinBase');
+            const ingredientsDisplay = document.getElementById('ingredientsDisplay');
+            const orderDetails = document.getElementById('orderDetails');
+            const priceDisplay = document.getElementById('priceDisplay');
+            const orderBtn = document.getElementById('orderBtn');
+            
+            // Actualizar base del budín
+            if (selection.flavor) {
+                const flavor = flavors.find(f => f.id === selection.flavor);
+                if (flavor.color.includes('gradient')) {
+                    budinBase.style.background = flavor.color;
+                } else {
+                    budinBase.style.backgroundColor = flavor.color;
+                }
+                budinBase.innerHTML = `<span style="font-size: 3rem;">${flavor.icon}</span>`;
+            }
+            
+            // Mostrar ingredientes extras
+            let ingredientsHTML = '';
+            
+            selection.extras.forEach(extraId => {
+                const extra = extras.find(e => e.id === extraId);
+                ingredientsHTML += `
+                    <div class="ingredient-item">
+                        <span class="ingredient-plus">+</span>
+                        <span>${extra.icon} ${extra.name}</span>
+                    </div>
+                `;
+            });
+            
+            selection.superExtras.forEach(superExtraId => {
+                const superExtra = superExtras.find(se => se.id === superExtraId);
+                ingredientsHTML += `
+                    <div class="ingredient-item">
+                        <span class="ingredient-plus">+</span>
+                        <span>${superExtra.icon} ${superExtra.name}</span>
+                    </div>
+                `;
+            });
+            
+            ingredientsDisplay.innerHTML = ingredientsHTML;
+            
+            // Calcular precio
+            let totalPrice = 0;
+            
+            if (selection.size) {
+                const size = sizes.find(s => s.id === selection.size);
+                totalPrice += size.price;
+            }
+            
+            selection.extras.forEach(extraId => {
+                const extra = extras.find(e => e.id === extraId);
+                totalPrice += extra.price;
+            });
+            
+            selection.superExtras.forEach(superExtraId => {
+                const superExtra = superExtras.find(se => se.id === superExtraId);
+                totalPrice += superExtra.price;
+            });
+            
+            // Actualizar resumen del pedido
+            if (selection.firstName && selection.lastName && selection.flavor && selection.size) {
+                const flavor = flavors.find(f => f.id === selection.flavor);
+                const size = sizes.find(s => s.id === selection.size);
+                
+                let detailsHTML = `
+                    <p><strong>Cliente:</strong> ${selection.firstName} ${selection.lastName}</p>
+                    <p><strong>Sabor:</strong> ${flavor.name}</p>
+                    <p><strong>Tamaño:</strong> ${size.name}</p>
+                `;
+                
+                if (selection.extras.length > 0) {
+                    detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id => extras.find(e => e.id === id).name).join(', ')}</p>`;
+                }
+                
+                if (selection.superExtras.length > 0) {
+                    detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id => superExtras.find(se => se.id === id).name).join(', ')}</p>`;
+                }
+                
+                orderDetails.innerHTML = detailsHTML;
+                orderBtn.disabled = false;
+            } else {
+                let missingData = [];
+                if (!selection.firstName || !selection.lastName) missingData.push('nombre completo');
+                if (!selection.flavor) missingData.push('sabor');
+                if (!selection.size) missingData.push('tamaño');
+                
+                orderDetails.innerHTML = `<p style="text-align: center; color: #7f8c8d;">Completa: ${missingData.join(', ')}</p>`;
+                orderBtn.disabled = true;
+            }
+            
+            priceDisplay.textContent = `$${totalPrice}`;
+        }
+        
+        function processOrder() {
+            const cookingAnimation = document.getElementById('cookingAnimation');
+            const progressFill = document.getElementById('progressFill');
+            const cookingStatus = document.getElementById('cookingStatus');
+            
+            const steps = [
+                { text: 'Preparando ingredientes...', icon: '🥚', duration: 1000 },
+                { text: 'Mezclando la masa...', icon: '🥣', duration: 1500 },
+                { text: 'Agregando los extras...', icon: '✨', duration: 1000 },
+                { text: 'Horneando tu budín...', icon: '🔥', duration: 2000 },
+                { text: '¡Budín listo para retirar!', icon: '🍰', duration: 1000 }
+            ];
+            
+            cookingAnimation.style.display = 'flex';
+            let currentStep = 0;
+            let progress = 0;
+            
+            function nextStep() {
+                if (currentStep < steps.length) {
+                    cookingStatus.textContent = steps[currentStep].text;
+                    
+                    // Actualizar icono según el paso
+                    const ovenIcon = document.querySelector('.oven-icon');
+                    ovenIcon.textContent = steps[currentStep].icon;
+                    
+                    // Añadir animación específica según el paso
+                    ovenIcon.className = 'oven-icon';
+                    switch(currentStep) {
+                        case 0: // Preparando ingredientes
+                            ovenIcon.classList.add('crack-animation');
+                            break;
+                        case 1: // Mezclando
+                            ovenIcon.classList.add('mix-animation');
+                            break;
+                        case 2: // Agregando extras
+                            ovenIcon.classList.add('rain-animation');
+                            break;
+                        case 3: // Horneando
+                            ovenIcon.classList.add('fire-animation');
+                            break;
+                        case 4: // Listo
+                            ovenIcon.classList.add('bounce-animation');
+                            break;
+                    }
+                    
+                    const stepProgress = 100 / steps.length;
+                    const targetProgress = (currentStep + 1) * stepProgress;
+                    
+                    const progressInterval = setInterval(() => {
+                        progress += 2;
+                        progressFill.style.width = Math.min(progress, targetProgress) + '%';
+                        
+                        if (progress >= targetProgress) {
+                            clearInterval(progressInterval);
+                            currentStep++;
+                            
+                            setTimeout(() => {
+                                if (currentStep < steps.length) {
+                                    nextStep();
+                                } else {
+                                    setTimeout(() => {
+                                        cookingAnimation.style.display = 'none';
+                                        
+                                        // Generar mensaje para WhatsApp
+                                        const flavor = flavors.find(f => f.id === selection.flavor);
+                                        const size = sizes.find(s => s.id === selection.size);
+                                        
+                                        let message = `🧁 *NUEVO PEDIDO - BUDINES ARTESANALES* 🧁\n\n`;
+                                        message += `👤 *CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
+                                        message += `📋 *RESUMEN DEL PEDIDO:*\n`;
+                                        message += `• *Sabor:* ${flavor.name} ${flavor.icon}\n`;
+                                        message += `• *Tamaño:* ${size.name} - ${size.price}\n`;
+                                        
+                                        if (selection.extras.length > 0) {
+                                            message += `\n✨ *EXTRAS:*\n`;
+                                            selection.extras.forEach(extraId => {
+                                                const extra = extras.find(e => e.id === extraId);
+                                                message += `• ${extra.name} ${extra.icon} - ${extra.price}\n`;
+                                            });
+                                        }
+                                        
+                                        if (selection.superExtras.length > 0) {
+                                            message += `\n🌟 *PREMIUM:*\n`;
+                                            selection.superExtras.forEach(superExtraId => {
+                                                const superExtra = superExtras.find(se => se.id === superExtraId);
+                                                message += `• ${superExtra.name} ${superExtra.icon} - ${superExtra.price}\n`;
+                                            });
+                                        }
+                                        
+                                        // Calcular precio total
+                                        let totalPrice = size.price;
+                                        selection.extras.forEach(extraId => {
+                                            const extra = extras.find(e => e.id === extraId);
+                                            totalPrice += extra.price;
+                                        });
+                                        selection.superExtras.forEach(superExtraId => {
+                                            const superExtra = superExtras.find(se => se.id === superExtraId);
+                                            totalPrice += superExtra.price;
+                                        });
+                                        
+                                        message += `\n💰 *TOTAL: ${totalPrice}*\n\n`;
+                                        message += `📅 Fecha: ${new Date().toLocaleDateString('es-AR')}\n`;
+                                        message += `⏰ Hora: ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
+                                        
+                                        // Codificar mensaje para URL
+                                        const encodedMessage = encodeURIComponent(message);
+                                        const whatsappURL = `https://wa.me/5492613618633?text=${encodedMessage}`;
+                                        
+                                        // Abrir WhatsApp
+                                        window.open(whatsappURL, '_blank');
+                                        
+                                        alert('¡Gracias por tu pedido! Te hemos redirigido a WhatsApp para enviar los detalles.');
+                                        resetForm();
+                                    }, 1000);
+                                }
+                            }, steps[currentStep - 1].duration);
+                        }
+                    }, 50);
+                }
+            }
+            
+            nextStep();
+        }
+        
+        function resetForm() {
+            selection = {
+                firstName: '',
+                lastName: '',
+                flavor: null,
+                extras: [],
+                superExtras: [],
+                size: null
+            };
+            
+            // Limpiar campos de texto
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            
+            document.querySelectorAll('.option-card, .size-option').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.getElementById('budinBase').style.background = '';
+            document.getElementById('budinBase').innerHTML = '<span style="font-size: 3rem;">🧁</span>';
+            
+            updatePreview();
+        }
+        
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
