@@ -249,13 +249,11 @@
 
         // Tamaños (se mantienen como dato descriptivo)
         const sizes = [
-            { id: '15cm', name: '15cm', price: 800 },
-            { id: '20cm', name: '20cm', price: 1200 },
-            { id: '25cm', name: '25cm', price: 1600 },
-            { id: '30cm', name: '30cm', price: 2000 }
+            { id: '15cm', name: '15cm', price: 700 },
+            { id: '20cm', name: '20cm', price: 1200 }
         ];
 
-        let selection = { firstName:'', lastName:'', flavor:null, extras:[], superExtras:[], size:null };
+        let selection = { firstName:'', lastName:'', flavor:null, extras:[], superExtras:[], size:[] };
 
         function initApp(){ renderFlavors(); renderExtras(); renderSuperExtras(); renderSizes(); setupInputListeners(); }
 
@@ -280,12 +278,24 @@
             }).catch(()=>{ alert('CVU: 0000003100065308425641'); });
         }
 
-        function renderFlavors(){ document.getElementById('flavors').innerHTML = flavors.map(flavor=>`<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}"><span class="option-icon">${flavor.icon}</span><div class="option-name">${flavor.name}</div></div>`).join(''); }
-        function renderExtras(){ document.getElementById('extras').innerHTML = extras.map(extra=>`<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}"><span class="option-icon">${extra.icon}</span><div class="option-name">${extra.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div></div>`).join(''); }
-        function renderSuperExtras(){ document.getElementById('superExtras').innerHTML = superExtras.map(se=>`<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join(''); }
-        function renderSizes(){ document.getElementById('sizes').innerHTML = sizes.map(s=>`<div class="size-option" onclick="selectSize('${s.id}')" id="size-${s.id}"><div style="font-weight:700">${s.name}</div><div style="font-size:0.7rem">$${s.price}</div></div>`).join(''); }
+        function renderFlavors(){ 
+            document.getElementById('flavors').innerHTML = flavors.map(flavor=>`<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}"><span class="option-icon">${flavor.icon}</span><div class="option-name">${flavor.name}</div></div>`).join(''); 
+        }
 
-        function selectFlavor(flavorId){ document.querySelectorAll('#flavors .option-card').forEach(card=>card.classList.remove('selected')); document.getElementById(`flavor-${flavorId}`).classList.add('selected'); selection.flavor = flavorId; updatePreview(); }
+        function renderExtras(){ 
+            document.getElementById('extras').innerHTML = extras.map(extra=>`<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}"><span class="option-icon">${extra.icon}</span><div class="option-name">${extra.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div></div>`).join(''); 
+        }
+
+        function renderSuperExtras(){ 
+            document.getElementById('superExtras').innerHTML = superExtras.map(se=>`<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join(''); 
+        }
+
+        function renderSizes(){ 
+            document.getElementById('sizes').innerHTML = sizes.map(s=>`<div class="size-option" onclick="selectSize('${s.id}')" id="size-${s.id}"><div style="font-weight:700">${s.name}</div><div style="font-size:0.7rem">$${s.price}</div></div>`).join(''); 
+        }
+
+        function selectFlavor(flavorId){ 
+            document.querySelectorAll('#flavors .option-card').forEach(card=>card.classList.remove('selected')); document.getElementById(`flavor-${flavorId}`).classList.add('selected'); selection.flavor = flavorId; updatePreview(); }
         function toggleExtra(extraId){ const card = document.getElementById(`extra-${extraId}`); const idx = selection.extras.indexOf(extraId); if(idx>-1){ selection.extras.splice(idx,1); card.classList.remove('selected'); }else{ selection.extras.push(extraId); card.classList.add('selected'); } updatePreview(); }
         function toggleSuperExtra(superExtraId){ const card = document.getElementById(`superExtra-${superExtraId}`); const idx = selection.superExtras.indexOf(superExtraId); if(idx>-1){ selection.superExtras.splice(idx,1); card.classList.remove('selected'); }else{ selection.superExtras.push(superExtraId); card.classList.add('selected'); } updatePreview(); }
         function selectSize(sizeId){ document.querySelectorAll('#sizes .size-option').forEach(card=>card.classList.remove('selected')); document.getElementById(`size-${sizeId}`).classList.add('selected'); selection.size = sizeId; updatePreview(); }
@@ -328,12 +338,16 @@
                 const se = superExtras.find(s=>s.id===seId);
                 totalPrice += se.price;
             });
+            selection.size.forEach(seId=>{
+                const se = size.find(s=>s.id===seId);
+                totalPrice += se.price;
+            });
 
             // Mostrar resumen
             if(selection.firstName && selection.lastName && selection.flavor && selection.size){
                 const flavor = flavors.find(f=>f.id===selection.flavor);
                 const size = sizes.find(s=>s.id===selection.size);
-                let detailsHTML = `<p><strong>Cliente:</strong> ${selection.firstName} ${selection.lastName}</p><p><strong>Sabor:</strong> ${flavor.name}</p><p><strong>Tamaño:</strong> ${size.name}</p>`;
+                let detailsHTML = `<p><strong>Nombre:</strong> ${selection.firstName} ${selection.lastName}</p><p><strong>Sabor:</strong> ${flavor.name}</p><p><strong>Tamaño:</strong> ${size.name}</p>`;
                 if(selection.extras.length>0) detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id=>extras.find(e=>e.id===id).name).join(', ')}</p>`;
                 if(selection.superExtras.length>0) detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id=>superExtras.find(se=>se.id===id).name).join(', ')}</p>`;
                 orderDetails.innerHTML = detailsHTML;
@@ -411,9 +425,26 @@
                                             message += `\n*PREMIUM:*\n`;
                                             selection.superExtras.forEach(seId => {
                                                 const se = superExtras.find(s => s.id === seId);
-                                                message += `• ${se.name} ${se.icon} - $${se.price}\n`;
+                                                message += `• ${se.name} - $${se.price}\n`;
                                             });
                                         }
+
+                                        if (selection.superExtras.length > 0) {
+                                            message += `\n*PREMIUM:*\n`;
+                                            selection.superExtras.forEach(seId => {
+                                                const se = superExtras.find(s => s.id === seId);
+                                                message += `• ${se.name} - $${se.price}\n`;
+                                            });
+                                        }
+
+                                        if (selection.size.length > 0) {
+                                            message += `\n*TAMAÑO:*\n`;
+                                            selection.size.forEach(seId => {
+                                                const se = size.find(s => s.id === seId);
+                                                message += `• ${se.name} - $${se.price}\n`;
+                                            });
+                                        }
+
                                         let totalPrice = size.price;
                                         selection.extras.forEach(extraId => {
                                             const extra = extras.find(e => e.id === extraId);
@@ -421,6 +452,10 @@
                                         });
                                         selection.superExtras.forEach(seId => {
                                             const se = superExtras.find(s => s.id === seId);
+                                            totalPrice += se.price;
+                                        });
+                                        selection.size.forEach(seId => {
+                                            const se = size.find(s => s.id === seId);
                                             totalPrice += se.price;
                                         });
                                         message += `\n*TOTAL: $${totalPrice}*\n\n`;
