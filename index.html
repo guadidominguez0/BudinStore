@@ -4,140 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budines Artesanales - Trini & Guada</title>
-    <style>
-        :root{
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --card-bg: rgba(255,255,255,0.95);
-            --muted: #7f8c8d;
-            --primary: #3498db;
-            --accent: #27ae60;
-            --shadow: 0 8px 32px rgba(0,0,0,0.08);
-            --radius: 14px;
-        }
 
-        *{box-sizing:border-box;margin:0;padding:0}
-        html,body{height:100%}
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            color:#333;
-            -webkit-font-smoothing:antialiased;
-            -moz-osx-font-smoothing:grayscale;
-            min-height:100vh;
-        }
-
-        .container{
-            max-width:1200px;
-            margin:0 auto;
-            padding:clamp(12px,2.5vw,28px);
-        }
-
-        .header{text-align:center;margin-bottom:28px;animation:fadeInDown 0.8s}
-        .header h1{font-size:clamp(1.6rem,3.2vw,2.6rem);color:#2c3e50;font-weight:300;margin-bottom:8px}
-        .header p{color:var(--muted);font-size:clamp(.9rem,1.6vw,1.1rem)}
-
-        /* Layout */
-        .main-content{
-            display:grid;
-            grid-template-columns: 1fr 360px;
-            gap:32px;
-            align-items:start;
-        }
-
-        /* Cards */
-        .form-section, .preview-section{
-            background:var(--card-bg);
-            border-radius:var(--radius);
-            padding:20px;
-            box-shadow:var(--shadow);
-            border:1px solid rgba(255,255,255,0.4);
-        }
-
-        .form-group{margin-bottom:22px}
-        .form-group h3{color:#2c3e50;margin-bottom:12px;font-size:1.05rem}
-
-        .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .input-field{
-            width:100%;padding:12px 14px;border:2px solid #ecf0f1;border-radius:12px;font-size:1rem;background:#fff;outline:none;transition:all .2s
-        }
-        .input-field:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(52,152,219,0.08);transform:translateY(-1px)}
-
-        .options-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-        .option-card{
-            background:white;border:2px solid #ecf0f1;border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92px
-        }
-        .option-card:hover{transform:translateY(-4px);box-shadow:0 8px 18px rgba(0,0,0,0.06)}
-        .option-card.selected{border-color:var(--primary);background:linear-gradient(135deg,var(--primary),#2980b9);color:#fff;transform:scale(1.03)}
-        .option-icon{font-size:1.6rem;margin-bottom:6px}
-        .option-name{font-size:0.95rem;font-weight:500}
-
-        .size-options{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-start}
-        .size-option{background:white;border:2px solid #ecf0f1;border-radius:50%;width:72px;height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
-        .size-option.selected{border-color:var(--primary);background:linear-gradient(135deg,var(--primary),#2980b9);color:#fff}
-
-        /* Preview */
-        .preview-title{text-align:center;color:#2c3e50;font-size:1.25rem;margin-bottom:12px}
-        .budin-preview{background:#f8f9fa;border-radius:12px;padding:18px;text-align:center;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-
-        .budin-base{
-            width:clamp(90px,18vw,140px);height:clamp(60px,12vw,100px);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:all .45s
-        }
-
-        .ingredients-display{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:10px}
-        .ingredient-item{display:flex;align-items:center;background:rgba(52,152,219,0.08);border-radius:20px;padding:6px 10px;font-size:0.82rem;color:#2980b9}
-
-        .order-summary{margin-top:14px;padding:14px;background:#ffffff;border-radius:10px}
-        .price-display{text-align:center;font-size:1.5rem;color:var(--accent);font-weight:700;margin:12px 0}
-        .order-btn{width:100%;background:linear-gradient(135deg,var(--accent),#2ecc71);color:#fff;border:none;padding:12px;border-radius:12px;font-size:1.02rem;cursor:pointer}
-        .order-btn:disabled{background:#bdc3c7;cursor:not-allowed}
-
-        .cvu-container{background:#f8f9fa;border:2px dashed var(--primary);border-radius:12px;padding:12px;text-align:center;margin-top:10px}
-        .cvu-number{font-family:monospace;font-weight:700;padding:8px 12px;border-radius:8px;display:inline-block;cursor:pointer;color:#2980b9}
-
-        /* Cooking animation overlay - keep full-screen on desktop but adapt on mobile */
-        .cooking-animation{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.72);display:none;align-items:center;justify-content:center;z-index:1200}
-        .cooking-content{background:white;border-radius:14px;padding:26px;text-align:center;max-width:420px;width:90%}
-        .oven-icon{font-size:3.5rem;margin-bottom:12px}
-
-        /* helpers */
-        .shake{animation:shake .5s}
-
-        /* Animations */
-        @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
-        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-
-        /* RESPONSIVE ADJUSTMENTS */
-        @media (max-width:1100px){
-            .main-content{grid-template-columns:1fr 320px;gap:20px}
-            .option-card{min-height:84px}
-        }
-
-        @media (max-width:900px){
-            .main-content{grid-template-columns:1fr;}
-            .preview-section{order:2}
-            .form-section{order:1}
-            .preview-section{position:static;top:auto}
-            .option-card{min-height:80px}
-            .options-grid{grid-template-columns:repeat(2,1fr)}
-            .input-grid{grid-template-columns:1fr}
-        }
-
-        @media (max-width:600px){
-            .options-grid{grid-template-columns:1fr}
-            .size-options{justify-content:center}
-            .size-option{width:64px;height:64px}
-            .budin-base{width:clamp(72px,32vw,110px);height:clamp(52px,20vw,80px)}
-            .header h1{font-size:1.6rem}
-            .preview-title{font-size:1.05rem}
-            .ingredient-item{font-size:0.78rem}
-        }
-
-        /* Small touch target improvements */
-        @media (pointer:coarse){
-            .option-card,.size-option{padding:16px}
-        }
-
-    </style>
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -169,11 +38,6 @@
                 <div class="form-group">
                     <h3>🌟 Super extras premium</h3>
                     <div class="options-grid" id="superExtras"></div>
-                </div>
-
-                <div class="form-group">
-                    <h3>📏 Tamaño del molde</h3>
-                    <div class="size-options" id="sizes"></div>
                 </div>
             </div>
 
@@ -226,7 +90,7 @@
         ];
 
         // Precio base de cualquier sabor
-        const BASE_FLAVOR_PRICE = 3800;
+        const BASE_FLAVOR_PRICE = 4000;
 
         // Lista de extras con precios actualizados
         const extras = [
@@ -247,20 +111,13 @@
             { id: 'glaseado', name: 'Glaseado', icon: '✨', price: 2750 }
         ];
 
-        // Tamaños (se mantienen como dato descriptivo)
-        const sizes = [
-            { id: '300g', name: '300g', price: 200 },
-            { id: '500g', name: '500g', price: 350 }
-        ];
-
         // Selección del usuario
-        let selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [], size: null };
+        let selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: []};
 
         function initApp() {
             renderFlavors();
             renderExtras();
             renderSuperExtras();
-            renderSizes();
             setupInputListeners();
         }
 
@@ -311,10 +168,6 @@
             document.getElementById('superExtras').innerHTML = superExtras.map(se => `<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join('');
         }
 
-        function renderSizes() {
-            document.getElementById('sizes').innerHTML = sizes.map(s => `<div class="size-option" onclick="selectSize('${s.id}')" id="size-${s.id}"><div style="font-weight:700">${s.name}</div><div style="font-size:0.7rem">$${s.price}</div></div>`).join('');
-        }
-
         function selectFlavor(flavorId) {
             document.querySelectorAll('#flavors .option-card').forEach(card => card.classList.remove('selected'));
             document.getElementById(`flavor-${flavorId}`).classList.add('selected');
@@ -345,13 +198,6 @@
                 selection.superExtras.push(superExtraId);
                 card.classList.add('selected');
             }
-            updatePreview();
-        }
-
-        function selectSize(sizeId) {
-            document.querySelectorAll('#sizes .size-option').forEach(card => card.classList.remove('selected'));
-            document.getElementById(`size-${sizeId}`).classList.add('selected');
-            selection.size = sizeId;
             updatePreview();
         }
 
@@ -396,10 +242,6 @@
                 const se = superExtras.find(s => s.id === seId);
                 totalPrice += se.price;
             });
-            if (selection.size) {
-                const sizeObj = sizes.find(s => s.id === selection.size);
-                totalPrice += sizeObj.price;
-            }
 
             // Mostrar resumen
             if (selection.firstName && selection.lastName && selection.flavor && selection.size) {
@@ -414,7 +256,6 @@
                 let missingData = [];
                 if (!selection.firstName || !selection.lastName) missingData.push('nombre completo');
                 if (!selection.flavor) missingData.push('sabor');
-                if (!selection.size) missingData.push('tamaño');
                 orderDetails.innerHTML = `<p style="text-align:center;color:var(--muted)">Completa: ${missingData.join(', ')}</p>`;
                 orderBtn.disabled = true;
             }
@@ -471,7 +312,6 @@
                                         message += `*CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
                                         message += `*RESUMEN DEL PEDIDO:*\n`;
                                         message += `• *Sabor:* ${flavor.name}\n`;
-                                        message += `• *Tamaño:* ${sizeObj.name}\n`;
                                         if (selection.extras.length > 0) {
                                             message += `\n*EXTRAS:*\n`;
                                             selection.extras.forEach(extraId => {

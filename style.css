@@ -1,0 +1,365 @@
+/* ===============================
+   Variables globales
+================================ */
+:root {
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --card-bg: rgba(255,255,255,0.95);
+    --muted: #7f8c8d;
+    --primary: #3498db;
+    --accent: #27ae60;
+    --shadow: 0 8px 32px rgba(0,0,0,0.08);
+    --radius: 14px;
+}
+
+/* ===============================
+   Reset y estilos base
+================================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-gradient);
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+}
+
+/* ===============================
+   Layout general
+================================ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(12px, 2.5vw, 28px);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+    animation: fadeInDown 0.8s;
+}
+
+.header h1 {
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    color: #2c3e50;
+    font-weight: 300;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--muted);
+    font-size: clamp(.9rem, 1.6vw, 1.1rem);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ===============================
+   Tarjetas y formularios
+================================ */
+.form-section,
+.preview-section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #ecf0f1;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #fff;
+    outline: none;
+    transition: all .2s;
+}
+
+.input-field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(52,152,219,0.08);
+    transform: translateY(-1px);
+}
+
+/* ===============================
+   Opciones y tamaños
+================================ */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.option-card {
+    background: white;
+    border: 2px solid #ecf0f1;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 92px;
+}
+
+.option-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+.option-card.selected {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), #2980b9);
+    color: #fff;
+    transform: scale(1.03);
+}
+
+.option-icon {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.option-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.size-options {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.size-option {
+    background: white;
+    border: 2px solid #ecf0f1;
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.size-option.selected {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), #2980b9);
+    color: #fff;
+}
+
+/* ===============================
+   Vista previa y resumen
+================================ */
+.preview-title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.budin-preview {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.budin-base {
+    width: clamp(90px, 18vw, 140px);
+    height: clamp(60px, 12vw, 100px);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: all .45s;
+}
+
+.ingredients-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    background: rgba(52,152,219,0.08);
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 0.82rem;
+    color: #2980b9;
+}
+
+.order-summary {
+    margin-top: 14px;
+    padding: 14px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.price-display {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+.order-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent), #2ecc71);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 1.02rem;
+    cursor: pointer;
+}
+
+.order-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.cvu-container {
+    background: #f8f9fa;
+    border: 2px dashed var(--primary);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.cvu-number {
+    font-family: monospace;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #2980b9;
+}
+
+/* ===============================
+   Animación de cocina (overlay)
+================================ */
+.cooking-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+}
+
+.cooking-content {
+    background: white;
+    border-radius: 14px;
+    padding: 26px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+}
+
+.oven-icon {
+    font-size: 3.5rem;
+    margin-bottom: 12px;
+}
+
+/* ===============================
+   Animaciones y helpers
+================================ */
+.shake {
+    animation: shake .5s;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* ===============================
+   Media queries
+================================ */
+@media (max-width: 1100px) {
+    .main-content { grid-template-columns: 1fr 320px; gap: 20px; }
+    .option-card { min-height: 84px; }
+}
+
+@media (max-width: 900px) {
+    .main-content { grid-template-columns: 1fr; }
+    .preview-section { order: 2; position: static; top: auto; }
+    .form-section { order: 1; }
+    .option-card { min-height: 80px; }
+    .options-grid { grid-template-columns: repeat(2, 1fr); }
+    .input-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .size-options { justify-content: center; }
+    .size-option { width: 64px; height: 64px; }
+    .budin-base { width: clamp(72px, 32vw, 110px); height: clamp(52px, 20vw, 80px); }
+    .header h1 { font-size: 1.6rem; }
+    .preview-title { font-size: 1.05rem; }
+    .ingredient-item { font-size: 0.78rem; }
+}
+
+@media (pointer: coarse) {
+    .option-card, .size-option { padding: 16px; }
+}
