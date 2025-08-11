@@ -260,9 +260,9 @@
                 orderBtn.disabled = false;
             } else {
                 let missingData = [];
-                if (!selection.firstName || !selection.lastName) missingData.push('nombre completo');
+                if (!selection.firstName || !selection.lastName) missingData.push('Nombre completo');
                 if (!selection.flavor) missingData.push('sabor');
-                orderDetails.innerHTML = `<p style="text-align:center;color:var(--muted)">Completa: ${missingData.join(', ')}</p>`;
+                orderDetails.innerHTML = `<p style="text-align:center;color:var(--muted)">Falta: ${missingData.join(', ')}</p>`;
                 orderBtn.disabled = true;
             }
 
