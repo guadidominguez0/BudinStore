@@ -34,8 +34,7 @@ https://guadidominguez0.github.io/BudinStore/
 ## 📦 Instalación y uso
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/TU-USUARIO/TU-REPO.git
-````
+   git clone https://github.com/TU-USUARIO/TU-REPO.git   
 
 2. Abre `index.html` en tu navegador.
 3. ¡Listo! Ya puedes comenzar a personalizar budines.
