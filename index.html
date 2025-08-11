@@ -6,12 +6,13 @@
     <title>Budines Artesanales - Trini & Guada</title>
 
     <!-- Enlace al archivo CSS externo -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧁 Budines Artesanales - Trini & Guada</h1>
+            <h1>🧁 Budines Artesanales 🧁</h1>
+            <h1>Trini & Guada</h1>
             <p>Crea tu budín perfecto con ingredientes frescos y naturales</p>
         </div>
 
@@ -89,10 +90,8 @@
             { id: 'carrot', name: 'Zanahoria', icon: '🥕', color: '#FF6347' }
         ];
 
-        // Precio base de cualquier sabor
         const BASE_FLAVOR_PRICE = 4000;
 
-        // Lista de extras con precios actualizados
         const extras = [
             { id: 'arandanos', name: 'Arándanos', icon: '🫐', price: 1600 },
             { id: 'chips-chocolate', name: 'Chips de Chocolate', icon: '🍫', price: 1400 },
@@ -105,14 +104,12 @@
             { id: 'frutos-rojos', name: 'Frutos Rojos', icon: '🍓', price: 1800 }
         ];
 
-        // Lista de super extras con precios actualizados
         const superExtras = [
             { id: 'bano-chocolate', name: 'Baño de Chocolate', icon: '🍫', price: 2750 },
             { id: 'glaseado', name: 'Glaseado', icon: '✨', price: 2750 }
         ];
 
-        // Selección del usuario
-        let selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: []};
+        let selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [] };
 
         function initApp() {
             renderFlavors();
@@ -134,7 +131,7 @@
 
         function copyCVU() {
             const cvuText = '0000003100065308425641';
-            navigator.clipboard.writeText(cvuText).then(function () {
+            navigator.clipboard.writeText(cvuText).then(() => {
                 const cvuElement = document.getElementById('cvuNumber');
                 const originalBg = cvuElement.style.background;
                 cvuElement.style.background = '#2ecc71';
@@ -157,15 +154,32 @@
         }
 
         function renderFlavors() {
-            document.getElementById('flavors').innerHTML = flavors.map(flavor => `<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}"><span class="option-icon">${flavor.icon}</span><div class="option-name">${flavor.name}</div></div>`).join('');
+            document.getElementById('flavors').innerHTML = flavors.map(flavor =>
+                `<div class="option-card" onclick="selectFlavor('${flavor.id}')" id="flavor-${flavor.id}">
+                    <span class="option-icon">${flavor.icon}</span>
+                    <div class="option-name">${flavor.name}</div>
+                </div>`
+            ).join('');
         }
 
         function renderExtras() {
-            document.getElementById('extras').innerHTML = extras.map(extra => `<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}"><span class="option-icon">${extra.icon}</span><div class="option-name">${extra.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div></div>`).join('');
+            document.getElementById('extras').innerHTML = extras.map(extra =>
+                `<div class="option-card" onclick="toggleExtra('${extra.id}')" id="extra-${extra.id}">
+                    <span class="option-icon">${extra.icon}</span>
+                    <div class="option-name">${extra.name}</div>
+                    <div style="font-size:0.8rem;color:var(--muted);">+$${extra.price}</div>
+                </div>`
+            ).join('');
         }
 
         function renderSuperExtras() {
-            document.getElementById('superExtras').innerHTML = superExtras.map(se => `<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}"><span class="option-icon">${se.icon}</span><div class="option-name">${se.name}</div><div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div></div>`).join('');
+            document.getElementById('superExtras').innerHTML = superExtras.map(se =>
+                `<div class="option-card" onclick="toggleSuperExtra('${se.id}')" id="superExtra-${se.id}">
+                    <span class="option-icon">${se.icon}</span>
+                    <div class="option-name">${se.name}</div>
+                    <div style="font-size:0.8rem;color:var(--muted);">+$${se.price}</div>
+                </div>`
+            ).join('');
         }
 
         function selectFlavor(flavorId) {
@@ -229,27 +243,19 @@
             });
             ingredientsDisplay.innerHTML = ingredientsHTML;
 
-            // Cálculo del precio
             let totalPrice = 0;
-            if (selection.flavor) {
-                totalPrice += BASE_FLAVOR_PRICE;
-            }
-            selection.extras.forEach(extraId => {
-                const extra = extras.find(e => e.id === extraId);
-                totalPrice += extra.price;
-            });
-            selection.superExtras.forEach(seId => {
-                const se = superExtras.find(s => s.id === seId);
-                totalPrice += se.price;
-            });
+            if (selection.flavor) totalPrice += BASE_FLAVOR_PRICE;
+            selection.extras.forEach(extraId => totalPrice += extras.find(e => e.id === extraId).price);
+            selection.superExtras.forEach(seId => totalPrice += superExtras.find(s => s.id === seId).price);
 
-            // Mostrar resumen
-            if (selection.firstName && selection.lastName && selection.flavor && selection.size) {
+            if (selection.firstName && selection.lastName && selection.flavor) {
                 const flavor = flavors.find(f => f.id === selection.flavor);
-                const sizeObj = sizes.find(s => s.id === selection.size);
-                let detailsHTML = `<p><strong>Nombre:</strong> ${selection.firstName} ${selection.lastName}</p><p><strong>Sabor:</strong> ${flavor.name}</p><p><strong>Tamaño:</strong> ${sizeObj.name}</p>`;
-                if (selection.extras.length > 0) detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id => extras.find(e => e.id === id).name).join(', ')}</p>`;
-                if (selection.superExtras.length > 0) detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id => superExtras.find(se => se.id === id).name).join(', ')}</p>`;
+                let detailsHTML = `<p><strong>Nombre:</strong> ${selection.firstName} ${selection.lastName}</p>
+                                   <p><strong>Sabor:</strong> ${flavor.name}</p>`;
+                if (selection.extras.length > 0)
+                    detailsHTML += `<p><strong>Extras:</strong> ${selection.extras.map(id => extras.find(e => e.id === id).name).join(', ')}</p>`;
+                if (selection.superExtras.length > 0)
+                    detailsHTML += `<p><strong>Premium:</strong> ${selection.superExtras.map(id => superExtras.find(se => se.id === id).name).join(', ')}</p>`;
                 orderDetails.innerHTML = detailsHTML;
                 orderBtn.disabled = false;
             } else {
@@ -285,13 +291,6 @@
                     const ovenIcon = document.querySelector('.oven-icon');
                     ovenIcon.textContent = steps[currentStep].icon;
                     ovenIcon.className = 'oven-icon';
-                    switch (currentStep) {
-                        case 0: ovenIcon.classList.add('crack-animation'); break;
-                        case 1: ovenIcon.classList.add('mix-animation'); break;
-                        case 2: ovenIcon.classList.add('rain-animation'); break;
-                        case 3: ovenIcon.classList.add('fire-animation'); break;
-                        case 4: ovenIcon.classList.add('bounce-animation'); break;
-                    }
                     const stepProgress = 100 / steps.length;
                     const targetProgress = (currentStep + 1) * stepProgress;
                     const progressInterval = setInterval(() => {
@@ -305,9 +304,7 @@
                                 else {
                                     setTimeout(() => {
                                         cookingAnimation.style.display = 'none';
-                                        // armar mensaje y abrir whatsapp
                                         const flavor = flavors.find(f => f.id === selection.flavor);
-                                        const sizeObj = sizes.find(s => s.id === selection.size);
                                         let message = `*NUEVO PEDIDO - BUDINES ARTESANALES*\n\n`;
                                         message += `*CLIENTE:* ${selection.firstName} ${selection.lastName}\n\n`;
                                         message += `*RESUMEN DEL PEDIDO:*\n`;
@@ -326,23 +323,14 @@
                                                 message += `• ${se.name} - $${se.price}\n`;
                                             });
                                         }
-
-                                        let totalPrice = BASE_FLAVOR_PRICE + sizeObj.price;
-                                        selection.extras.forEach(extraId => {
-                                            const extra = extras.find(e => e.id === extraId);
-                                            totalPrice += extra.price;
-                                        });
-                                        selection.superExtras.forEach(seId => {
-                                            const se = superExtras.find(s => s.id === seId);
-                                            totalPrice += se.price;
-                                        });
-
+                                        let totalPrice = BASE_FLAVOR_PRICE;
+                                        selection.extras.forEach(extraId => totalPrice += extras.find(e => e.id === extraId).price);
+                                        selection.superExtras.forEach(seId => totalPrice += superExtras.find(s => s.id === seId).price);
                                         message += `\n*TOTAL: $${totalPrice}*\n\n`;
                                         message += `Fecha: ${new Date().toLocaleDateString('es-AR')}\n`;
                                         message += `Hora: ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
                                         const encodedMessage = encodeURIComponent(message);
-                                        const whatsappURL = `https://wa.me/5492613618633?text=${encodedMessage}`;
-                                        location.href = whatsappURL;
+                                        location.href = `https://wa.me/5492613618633?text=${encodedMessage}`;
                                         resetForm();
                                     }, 1000);
                                 }
@@ -356,10 +344,10 @@
         }
 
         function resetForm() {
-            selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [], size: null };
+            selection = { firstName: '', lastName: '', flavor: null, extras: [], superExtras: [] };
             document.getElementById('firstName').value = '';
             document.getElementById('lastName').value = '';
-            document.querySelectorAll('.option-card, .size-option').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
             document.getElementById('budinBase').style.background = '';
             document.getElementById('budinBase').innerHTML = '<span style="font-size:2.6rem">🧁</span>';
             updatePreview();
@@ -367,6 +355,5 @@
 
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
-
 </body>
 </html>
